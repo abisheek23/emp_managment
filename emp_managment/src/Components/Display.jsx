@@ -3,23 +3,26 @@ import axios from 'axios';
 
 const DisplayEmp =()=>{
     const [Emp,setEmp]=useState([]);
+    const [serEmp,setserEmp]=useState([]);
+    const [filterdemp,setfilterdEmp]=useState([]);
     const [editing,setEditing]=useState(false);
     const [currentEmp,setCurrentEmp]=useState({id:null,empid:null,name:'',address:'',position:'',salary:null,experiance:null,phone:null,email:''})
    
     
     useEffect(()=>{
-        axios.get('https://aiswarya2325.pythonanywhere.com/employemanagement/employees/')
+        axios.get('https://alan2325.pythonanywhere.com/employe/employees/')
         .then(response =>setEmp(response.data))
         .catch(error => console.log(error));
     },[]);
 
     const deleteEmp =(id)=>{
-        axios.delete(`https://aiswarya2325.pythonanywhere.com/employemanagement/employees/${id}/`)
+        axios.delete(`https://alan2325.pythonanywhere.com/employe/employees/${id}/`)
         .then(()=>{
             setEmp(Emp.filter(emp=> emp.id !==id));
         })
         .catch((error) => console.log(error));
     }
+   
 
     const editEmp=(emp)=>{
         setEditing(true);
@@ -28,18 +31,35 @@ const DisplayEmp =()=>{
     };
     const updateEmp=(id,updateEmp)=>{
         setEditing(false);
-        axios.put(`https://aiswarya2325.pythonanywhere.com/employemanagement/employees/${id}/`)
+        axios.put(`https://alan2325.pythonanywhere.com/employe/employees/${id}/`)
         .then(response=>{
             setEmp(Emp.map(emp=>(emp.id === id? response.data:emp)));
         })
         .catch(error=>console.log(error));
         
     };
+    useEffect(()=>{
+        const result=Emp.filter(emp=>emp.position.includes(serEmp))
+       
+        setfilterdEmp(result)
 
+    },[serEmp,Emp])
+
+    useEffect(()=>{
+       
+        const result=Emp.filter(emp=>emp.position.includes(serEmp) 
+        || emp.empid.toString().includes(serEmp)
+        || emp.salary.toString().includes(serEmp)
+        || emp.experiance.toString().includes(serEmp))
+       
+        setfilterdEmp(result)
+
+    },[serEmp,Emp])
     return(
         <div>
             <h2>Emp</h2>
-            <table className='table mt-5  table-hover table-bordered'>
+            <input className="m-5 "  placeholder="  search employee" type="search" value={serEmp} onChange={(e)=>setserEmp(e.target.value)}/>          
+              <table className='table mt-5  table-hover table-bordered'>
                 <thead>
                     <tr>
                         <td>EmpId</td>
@@ -53,7 +73,7 @@ const DisplayEmp =()=>{
                     </tr>
                 </thead>
                 <tbody>
-                    {Emp.map(empl =>(
+                    {filterdemp.map(empl =>(
                         <tr key={empl.id}>
                             <td>{empl.empid}</td>
                             <td>{empl.name}</td>
@@ -94,11 +114,14 @@ const EditempForm=({currentEmp,updateEmp})=>{
     }
     return(
         <form onSubmit={handleSubmit}>
+        
             <h2>Edit employee</h2>
+          
             <div>
                 <label >Name</label>
                 <input type="text"
                 name='name'
+                className='form-control'
                 value={emp.name} 
                 onChange={handleInputchange} />
             </div>
@@ -106,14 +129,31 @@ const EditempForm=({currentEmp,updateEmp})=>{
                 <label >EmpID</label>
                 <input type="number"
                 empid='empid'
+                className='form-control'
                 value={emp.id} 
                 onChange={handleInputchange} />
             </div>
             <div>
                 <label >Address</label>
                 <input type="text"
+                className='form-control'
                 address='address'
-                value={emp.name} 
+                value={emp.address} 
+                onChange={handleInputchange} />
+            </div>
+            <div>
+                <label >experiance</label>
+                <input type="text"
+                className='form-control'
+                experiance='experiance'
+                value={emp.experiance} 
+                onChange={handleInputchange} />
+            </div>
+            <div>
+                <label >salery</label>
+                <input type="number"
+                salary='salery'
+                value={emp.salary} 
                 onChange={handleInputchange} />
             </div>
             <button type='submit'>updateTask Task</button>

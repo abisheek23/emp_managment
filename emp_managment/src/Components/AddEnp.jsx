@@ -6,14 +6,14 @@ const AddEmp =()=>{
     const [empid,setId]=useState('');
     const [position,setPosition]=useState('');
     const [address,setAddress]=useState('');
-    const [salary,setSalary]=useState('');
-    const [experiance,setExperiance]=useState('');
+    const [salary,setSalary]=useState('').toString();
+    const [experiance,setExperiance]=useState('').toString();
     const [phone,setPhone]=useState('');
     const [email,setEmail]=useState('');
     const handleSubmit =(e)=>{
         e.preventDefault();
     
-        axios.post('https://aiswarya2325.pythonanywhere.com/employemanagement/employees/',{empid,name,position,address,salary,experiance,phone,email})
+        axios.post('https://alan2325.pythonanywhere.com/employe/employees//',{empid,name,position,address,salary,experiance,phone,email})
         .then(response =>{
             console.log(response.data);
             setName('')
