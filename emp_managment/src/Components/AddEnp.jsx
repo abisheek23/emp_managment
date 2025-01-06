@@ -13,7 +13,7 @@ const AddEmp =()=>{
     const handleSubmit =(e)=>{
         e.preventDefault();
     
-        axios.post('https://alan2325.pythonanywhere.com/employe/employees//',{empid,name,position,address,salary,experiance,phone,email})
+        axios.post('http://127.0.0.1:8000/api/emp/',{empid,name,position,address,salary,experiance,phone,email})
         .then(response =>{
             console.log(response.data);
             setName('')

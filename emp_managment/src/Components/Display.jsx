@@ -10,13 +10,13 @@ const DisplayEmp =()=>{
    
     
     useEffect(()=>{
-        axios.get('https://alan2325.pythonanywhere.com/employe/employees/')
+        axios.get('http://127.0.0.1:8000/api/emp/')
         .then(response =>setEmp(response.data))
         .catch(error => console.log(error));
     },[]);
 
     const deleteEmp =(id)=>{
-        axios.delete(`https://alan2325.pythonanywhere.com/employe/employees/${id}/`)
+        axios.delete(`http://127.0.0.1:8000/api/emp/${id}/`)
         .then(()=>{
             setEmp(Emp.filter(emp=> emp.id !==id));
         })
@@ -31,7 +31,7 @@ const DisplayEmp =()=>{
     };
     const updateEmp=(id,updateEmp)=>{
         setEditing(false);
-        axios.put(`https://alan2325.pythonanywhere.com/employe/employees/${id}/`)
+        axios.put(`http://127.0.0.1:8000/api/emp/${id}/`)
         .then(response=>{
             setEmp(Emp.map(emp=>(emp.id === id? response.data:emp)));
         })
